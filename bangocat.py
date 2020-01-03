@@ -1,14 +1,24 @@
 import cv2
 import random
+import argparse
 
-i00 = cv2.imread("00.png")
-i01 = cv2.imread("01.png")
-i10 = cv2.imread("10.png")
-i11 = cv2.imread("11.png")
 
-img = [i00, i01, i10, i11]
-size = 600
-img = list(map(lambda i: cv2.resize(i, (size, size)), img))
-while True:
-    cv2.imshow("", random.choice(img))
-    cv2.waitKey(100)
+def run():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--time", default=100, type=int, help="Delta T")
+    parser.add_argument("-s", "--size", default=600, type=int, help="Size")
+
+    args = parser.parse_args()
+
+    img = [cv2.imread("00.png"), cv2.imread("01.png"),
+           cv2.imread("10.png"), cv2.imread("11.png")]
+
+    img = [cv2.resize(i, (args.size, args.size)) for i in img]
+
+    while True:
+        cv2.imshow("", random.choice(img))
+        cv2.waitKey(args.time)
+
+
+if __name__ == '__main__':
+    run()
